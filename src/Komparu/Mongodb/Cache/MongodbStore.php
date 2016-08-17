@@ -1,4 +1,4 @@
-<?php namespace Vansteen\Mongodb\Cache;
+<?php namespace Komparu\Mongodb\Cache;
 
 use Jenssegers\Mongodb\Connection;
 use Illuminate\Cache\StoreInterface;

@@ -1,4 +1,4 @@
-<?php namespace Vansteen\Mongodb\Cache;
+<?php namespace Komparu\Mongodb\Cache;
 
 use Illuminate\Cache\CacheManager;
 
@@ -7,7 +7,7 @@ class MongodbCacheManager extends CacheManager {
 	/**
 	 * Create an instance of the database cache driver.
 	 *
-	 * @return \Vansteen\Mongodb\Cache\MongoStore
+	 * @return \Komparu\Mongodb\Cache\MongodbStore
 	 */
 	protected function createMongodbDriver()
 	{

@@ -1,5 +1,5 @@
 {
-    "name": "vansteen/laravel-mongodb-cache",
+    "name": "komparu/laravel-mongodb-cache",
     "description": "A MongoDB cache driver for Laravel 4 using the Laravel MongoDB package jenssegers/mongodb",
     "keywords": ["laravel","cache","mongodb","mongo","driver"],
     "authors": [
@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Vansteen\\Mongodb\\Cache": "src/"
+            "Komparu\\Mongodb\\Cache": "src/"
         }
     },
     "minimum-stability": "stable",

@@ -17,7 +17,7 @@ Add the package to your `composer.json` and run `composer update`.
 ```php
 {
   "require": {
-    "vansteen/laravel-mongodb-cache": "dev-master"
+    "komparu/laravel-mongodb-cache": "dev-master"
   }
 }
 ```
@@ -25,7 +25,7 @@ Add the package to your `composer.json` and run `composer update`.
 Add the cache service provider in `app/config/app.php`:
 
 ```php
-    'Vansteen\Mongodb\Cache\MongodbCacheServiceProvider',
+    'Komparu\Mongodb\Cache\MongodbCacheServiceProvider',
 ```
 
 Change the cache driver in `app/config/cache.php` to mongodb:
