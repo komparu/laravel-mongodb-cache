@@ -4,9 +4,10 @@ namespace Komparu\Mongodb\Cache;
 
 
 use Illuminate\Cache\StoreInterface;
-use Illuminate\Cache\TaggableStore;
+use Komparu\Mongodb\Core\KomparuTaggableStore;
 
-class MongodbTaggedStore extends TaggableStore implements StoreInterface {
+class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface {
+
     public function get($key){}
 
     public function put($key, $value, $minutes){}

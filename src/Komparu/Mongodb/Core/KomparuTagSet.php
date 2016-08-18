@@ -3,8 +3,9 @@
 namespace Komparu\Mongodb\Core;
 
 use Illuminate\Cache\StoreInterface;
+use Illuminate\Cache\TagSet;
 
-class KomparuTagSet
+class KomparuTagSet extends TagSet
 {
 
     /**
@@ -16,17 +17,5 @@ class KomparuTagSet
      * @var string[]
      */
     protected $names = [];
-
-    /**
-     * KomparuTagSet constructor.
-     *
-     * @param StoreInterface $store
-     * @param string[] $names
-     */
-    public function __construct(StoreInterface $store, array $names)
-    {
-        $this->store = $store;
-        $this->names = $names;
-    }
 
 }
