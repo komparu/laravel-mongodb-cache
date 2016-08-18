@@ -9,7 +9,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
 {
 
     /**
-     * @var StoreInterface
+     * @var KomparuTaggableStore
      */
     protected $store;
 
@@ -21,10 +21,10 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
     /**
      * KomparuTaggedCache constructor.
      *
-     * @param StoreInterface $store
+     * @param KomparuTaggableStore $store
      * @param KomparuTagSet $tags
      */
-    public function __construct(StoreInterface $store, KomparuTagSet $tags)
+    public function __construct(KomparuTaggableStore $store, KomparuTagSet $tags)
     {
         return parent::__construct($store, $tags);
     }
@@ -38,7 +38,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function get($key)
     {
-        $this->store->get($key);
+        $this->getTaggedStore()->get($key);
     }
 
 
@@ -53,7 +53,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function put($key, $value, $minutes)
     {
-        // TODO: Implement put() method.
+        $this->getTaggedStore()->put($key, $value, $minutes);
     }
 
     /**
@@ -92,7 +92,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function forever($key, $value)
     {
-        // TODO: Implement forever() method.
+        $this->getTaggedStore()->forever($key, $value);
     }
 
     /**
@@ -124,4 +124,32 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
     {
         // TODO: Implement getPrefix() method.
     }
+
+
+    /**
+     * @return KomparuTaggableStore
+     */
+    public function getStore()
+    {
+        return $this->store;
+    }
+
+    /**
+     * @return KomparuTagSet
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @return KomparuTaggableStore
+     */
+    private function getTaggedStore()
+    {
+        return $this
+            ->getStore()
+            ->_setTagsForNextOperation($this->getTags()->getNames());
+    }
+
 }

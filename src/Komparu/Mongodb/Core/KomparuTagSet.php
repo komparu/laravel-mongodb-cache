@@ -18,4 +18,9 @@ class KomparuTagSet extends TagSet
      */
     protected $names = [];
 
+    public function getNames()
+    {
+        return $this->names;
+    }
+
 }
