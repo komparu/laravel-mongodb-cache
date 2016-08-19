@@ -1,24 +1,22 @@
 <?php namespace Komparu\Mongodb\Cache;
 
+use Illuminate\Cache\CacheManager;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 
-class MongodbCacheServiceProvider extends ServiceProvider {
+class MongodbCacheServiceProvider extends ServiceProvider
+{
 
-	/**
-	 * Register the service provider.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-    $this->app->resolving('cache', function($cache)
+    /**
+     * Register the service provider.
+     * @return void
+     */
+    public function register()
     {
-        $cache->extend('mongodb', function($app)
-        {
-            $manager = new MongodbCacheManager($app);
-
-            return $manager->driver('mongodb');
+        $this->app->resolving('cache', function (CacheManager $cache) {
+            $cache->extend('mongodb', function (Application $app) {
+                return (new MongodbCacheManager($app))->driver('mongodb');
+            });
         });
-    });
-	}
+    }
 }
