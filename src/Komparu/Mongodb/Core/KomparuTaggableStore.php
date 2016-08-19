@@ -17,7 +17,7 @@ abstract class KomparuTaggableStore extends TaggableStore implements StoreInterf
      */
     public function getTags()
     {
-        return $this->tags;
+        return is_null($this->tags) ? [] : $this->tags;
     }
 
     public function tags($names)

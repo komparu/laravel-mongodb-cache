@@ -25,12 +25,6 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
     const KEY = '_id';
 
     /**
-     * The database connection instance.
-     * @var Connection
-     */
-    protected $connection;
-
-    /**
      * The encrypter instance.
      * @var Encrypter
      */
