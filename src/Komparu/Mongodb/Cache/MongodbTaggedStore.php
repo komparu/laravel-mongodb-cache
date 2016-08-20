@@ -103,6 +103,7 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      * @param string $key
      * @param int $value
      *
+     * @return bool|int|void
      * @throws LogicException
      */
     public function increment($key, $value = 1)
@@ -114,6 +115,7 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      * @param string $key
      * @param int $value
      *
+     * @return bool|int|void
      * @throws LogicException
      */
     public function decrement($key, $value = 1)
@@ -170,8 +172,9 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      */
     private function getWhere($key)
     {
-        return array_reduce($this->getTags(), function (Builder $cache, $tag) {
-            return $cache->where('tags', $tag);
-        }, $this->getCacheCollection()->where(self::KEY, $key));
+        return $this
+            ->getCacheCollection()
+            ->where(self::KEY, $key)
+            ->whereIn('tags', $this->getTags());
     }
 }
