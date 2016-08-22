@@ -95,7 +95,13 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
 
         $data = array('expiration' => $expiration, self::KEY => $key, 'value' => $value, 'tags' => $this->getTags());
 
-        $this->getWhere($key)->update($data, ['upsert' => true]);
+        $item = $this->getCacheCollection()->where(self::KEY, $key)->first();
+
+        if (is_null($item)) {
+            $this->getCacheCollection()->insert($data);
+        } else {
+            $this->getCacheCollection()->where(self::KEY, $key)->update($data);
+        }
 
     }
 
