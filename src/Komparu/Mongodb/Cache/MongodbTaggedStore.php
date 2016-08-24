@@ -151,6 +151,11 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      */
     public function flush()
     {
+        if (empty($this->getTags())) {
+            $this->flush();
+        } else {
+            $this->getWhere()->delete();
+        }
     }
 
     /**
@@ -176,11 +181,13 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      *
      * @return Builder
      */
-    private function getWhere($key)
+    private function getWhere($key = null)
     {
-        return $this
+        $q = $this
             ->getCacheCollection()
-            ->where(self::KEY, $key)
             ->whereIn('tags', $this->getTags());
+
+        return $key ? $q->where(self::KEY, $key) : $q;
+
     }
 }
