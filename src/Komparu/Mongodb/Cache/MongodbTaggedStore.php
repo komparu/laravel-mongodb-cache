@@ -183,11 +183,15 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      */
     private function getWhere($key = null)
     {
-        $q = $this
-            ->getCacheCollection()
-            ->whereIn('tags', $this->getTags());
+        $q = $this->getCacheCollection();
 
-        return $key ? $q->where(self::KEY, $key) : $q;
+        $q = $key
+            ? $q->where(self::KEY, $key)
+            : $q;
+        $q = !empty($this->getTags())
+            ? $q->whereIn('trags', $this->getTags())
+            : $q;
 
+        return $q;
     }
 }
