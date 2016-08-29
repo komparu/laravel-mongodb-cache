@@ -152,7 +152,8 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
     public function flush()
     {
         if (empty($this->getTags())) {
-            $this->flush();
+            $mongo_collection = $this->connection->getCollection($this->collection_name);
+            $mongo_collection->drop();
         } else {
             $this->getWhere()->delete();
         }
