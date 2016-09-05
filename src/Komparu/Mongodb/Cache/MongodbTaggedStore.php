@@ -17,6 +17,7 @@ use Symfony\Component\Process\Exception\LogicException;
 class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
 {
 
+    const TAGS = 'tags';
     use MongoTrait;
 
     /**
@@ -93,7 +94,7 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
 
         $expiration = new \MongoDate($this->getTime() + ($minutes * 60));
 
-        $data = array('expiration' => $expiration, self::KEY => $key, 'value' => $value, 'tags' => $this->getTags());
+        $data = array('expiration' => $expiration, self::KEY => $key, 'value' => $value, self::TAGS => $this->getTags());
 
         $item = $this->getCacheCollection()->where(self::KEY, $key)->first();
 
@@ -190,7 +191,7 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
             ? $q->where(self::KEY, $key)
             : $q;
         $q = !empty($this->getTags())
-            ? $q->whereIn('trags', $this->getTags())
+            ? $q->whereIn(self::TAGS, $this->getTags())
             : $q;
 
         return $q;
