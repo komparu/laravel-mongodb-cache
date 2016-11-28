@@ -174,6 +174,6 @@ class MongodbStore implements StoreInterface
     public function flush()
     {
         $mongo_collection = $this->connection->getCollection($this->collection_name);
-        $mongo_collection->drop();
+        $mongo_collection->remove();
     }
 }
