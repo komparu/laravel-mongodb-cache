@@ -86,6 +86,8 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      * @param string $key
      * @param mixed $value
      * @param int $minutes
+     *
+     * @return bool
      */
     public function put($key, $value, $minutes)
     {
@@ -96,14 +98,20 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
 
         $data = array('expiration' => $expiration, self::KEY => $key, 'value' => $value, self::TAGS => $this->getTags());
 
-        $item = $this->getCacheCollection()->where(self::KEY, $key)->first();
+        $collection = $this->getCacheCollection();
+        $item       = $collection->where(self::KEY, $key)->first();
 
-        if (is_null($item)) {
-            $this->getCacheCollection()->insert($data);
-        } else {
-            $this->getCacheCollection()->where(self::KEY, $key)->update($data);
+        try {
+            if (is_null($item)) {
+                $collection->insert($data);
+            } else {
+                $collection->where(self::KEY, $key)->update($data);
+            }
+
+            return true;
+        } catch(\Exception $e) {
+            return false;
         }
-
     }
 
     /**

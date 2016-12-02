@@ -77,7 +77,7 @@ class MongodbStore implements StoreInterface
      * @param  mixed $value
      * @param  int $minutes
      *
-     * @return void
+     * @return bool
      */
     public function put($key, $value, $minutes)
     {
@@ -92,12 +92,19 @@ class MongodbStore implements StoreInterface
 
         $data = array('expiration' => $expiration, 'key' => $key, 'value' => $value);
 
-        $item = $this->getCacheCollection()->where('key', $key)->first();
+        $collection = $this->getCacheCollection();
+        $item       = $collection->where('key', $key)->first();
 
-        if (is_null($item)) {
-            $this->getCacheCollection()->insert($data);
-        } else {
-            $this->getCacheCollection()->where('key', $key)->update($data);
+        try {
+            if (is_null($item)) {
+                $collection->insert($data);
+            } else {
+                $collection->where('key', $key)->update($data);
+            }
+
+            return true;
+        } catch(\Exception $e) {
+            return false;
         }
     }
 
