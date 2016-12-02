@@ -154,7 +154,8 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
     {
         if (empty($this->getTags())) {
             $mongo_collection = $this->connection->getCollection($this->collection_name);
-            $mongo_collection->remove();
+
+            $this->truncateCollection($mongo_collection);
         } else {
             $this->getWhere()->delete();
         }
