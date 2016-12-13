@@ -76,7 +76,9 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
                 return $this->forget($key);
             }
 
-            return $this->encrypter->decrypt($cache['value']);
+            return unserialize($cache['value']);
+            // speed improvement
+            //return $this->encrypter->decrypt($cache['value']);
         }
 
         return null;
@@ -92,7 +94,9 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
     public function put($key, $value, $minutes)
     {
         $key   = $this->getKey($key);
-        $value = $this->encrypter->encrypt($value);
+        $value = serialize($value);
+        // speed improvement
+        //$value = $this->encrypter->encrypt($value);
 
         $expiration = new \MongoDate($this->getTime() + ($minutes * 60));
 

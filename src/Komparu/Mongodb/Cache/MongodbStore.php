@@ -66,7 +66,9 @@ class MongodbStore implements StoreInterface
                 return $this->forget($key);
             }
 
-            return $this->encrypter->decrypt($cache['value']);
+            return unserialize($cache['value']);
+
+            //return $this->encrypter->decrypt($cache['value']);
         }
     }
 
@@ -86,7 +88,8 @@ class MongodbStore implements StoreInterface
         // All of the cached values in the database are encrypted in case this is used
         // as a session data store by the consumer. We'll also calculate the expire
         // time and place that on the table so we will check it on our retrieval.
-        $value = $this->encrypter->encrypt($value);
+        $value = serialize($value);
+        //$value = $this->encrypter->encrypt($value);
 
         $expiration = new \MongoDate($this->getTime() + ($minutes * 60));
 
