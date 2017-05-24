@@ -38,7 +38,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function get($key)
     {
-        $this->getTaggedStore()->get($key);
+        return $this->getTaggedStore()->get($key);
     }
 
 
@@ -53,7 +53,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function put($key, $value, $minutes)
     {
-        $this->getTaggedStore()->put($key, $value, $minutes);
+        return $this->getTaggedStore()->put($key, $value, $minutes);
     }
 
     /**
@@ -79,7 +79,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function decrement($key, $value = 1)
     {
-        $this->getTaggedStore()->decrement($key, $value);
+        return $this->getTaggedStore()->decrement($key, $value);
     }
 
     /**
@@ -92,7 +92,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function forever($key, $value)
     {
-        $this->getTaggedStore()->forever($key, $value);
+        return $this->getTaggedStore()->forever($key, $value);
     }
 
     /**
@@ -104,7 +104,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function forget($key)
     {
-        $this->getTaggedStore()->forget($key);
+        return $this->getTaggedStore()->forget($key);
     }
 
     /**
@@ -113,7 +113,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function flush()
     {
-        $this->getTaggedStore()->flush();
+        return $this->getTaggedStore()->flush();
     }
 
     /**
@@ -122,7 +122,7 @@ class KomparuTaggedCache extends TaggedCache implements StoreInterface
      */
     public function getPrefix()
     {
-        $this->getTaggedStore()->getPrefix();
+        return $this->getTaggedStore()->getPrefix();
     }
 
 
