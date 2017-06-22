@@ -66,9 +66,9 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      */
     public function get($key)
     {
-        $key = $this->getKey($key);
+        $prefixedKey = $this->getKey($key);
 
-        $cache = $this->getWhere($key)->first();
+        $cache = $this->getWhere($prefixedKey)->first();
 
 
         if (!is_null($cache)) {
@@ -93,23 +93,23 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      */
     public function put($key, $value, $minutes)
     {
-        $key   = $this->getKey($key);
+        $prefixedKey   = $this->getKey($key);
         $value = serialize($value);
         // speed improvement
         //$value = $this->encrypter->encrypt($value);
 
         $expiration = new \MongoDate($this->getTime() + ($minutes * 60));
 
-        $data = array('expiration' => $expiration, self::KEY => $key, 'value' => $value, self::TAGS => $this->getTags());
+        $data = array('expiration' => $expiration, self::KEY => $prefixedKey, 'value' => $value, self::TAGS => $this->getTags());
 
         $collection = $this->getCacheCollection();
-        $item       = $collection->where(self::KEY, $key)->first();
+        $item       = $collection->where(self::KEY, $prefixedKey)->first();
 
         try {
             if (is_null($item)) {
                 $collection->insert($data);
             } else {
-                $collection->where(self::KEY, $key)->update($data);
+                $collection->where(self::KEY, $prefixedKey)->update($data);
             }
 
             return true;
@@ -197,11 +197,12 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      * @return Builder
      */
     private function getWhere($key = null)
-    {
+    {        
+        $prefixedKey = $this->getKey($key);
         $q = $this->getCacheCollection();
 
         $q = $key
-            ? $q->where(self::KEY, $key)
+            ? $q->where(self::KEY, $prefixedKey)
             : $q;
         $q = !empty($this->getTags())
             ? $q->whereIn(self::TAGS, $this->getTags())
