@@ -66,9 +66,7 @@ class MongodbTaggedStore extends KomparuTaggableStore implements StoreInterface
      */
     public function get($key)
     {
-        $prefixedKey = $this->getKey($key);
-
-        $cache = $this->getWhere($prefixedKey)->first();
+        $cache = $this->getWhere($key)->first();
 
 
         if (!is_null($cache)) {
